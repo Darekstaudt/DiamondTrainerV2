@@ -56,3 +56,91 @@ function displayForwardPassResults(results) {
         resultsDiv.style.animation = 'slideIn 0.3s ease';
     }, 10);
 }
+
+/**
+ * Find the closest matching data point in the dataset
+ * @param {number} pitchSpeed - Input pitch speed
+ * @param {number} launchAngle - Input launch angle
+ * @param {Array} dataset - Training dataset
+ * @returns {Object} - Closest matching data point
+ */
+function findClosestDataPoint(pitchSpeed, launchAngle, dataset) {
+    if (!dataset || dataset.length === 0) {
+        return null;
+    }
+    
+    let closest = dataset[0];
+    let minDistance = Infinity;
+    
+    dataset.forEach(point => {
+        const distance = Math.sqrt(
+            Math.pow(point.pitchSpeed - pitchSpeed, 2) +
+            Math.pow(point.launchAngle - launchAngle, 2)
+        );
+        
+        if (distance < minDistance) {
+            minDistance = distance;
+            closest = point;
+        }
+    });
+    
+    return closest;
+}
+
+/**
+ * Display the correct answer based on dataset
+ * @param {number} pitchSpeed - Current pitch speed
+ * @param {number} launchAngle - Current launch angle
+ * @param {Array} dataset - Training dataset
+ */
+function displayCorrectAnswer(pitchSpeed, launchAngle, dataset) {
+    const answerContainer = document.getElementById('answerContainer');
+    const answerContent = document.getElementById('answerContent');
+    
+    if (!dataset || dataset.length === 0) {
+        answerContent.innerHTML = `
+            <p>⚠️ No dataset loaded. Please check the scouting report.</p>
+        `;
+        answerContainer.classList.remove('hidden');
+        return;
+    }
+    
+    // Find closest data point
+    const closest = findClosestDataPoint(pitchSpeed, launchAngle, dataset);
+    
+    if (!closest) {
+        answerContent.innerHTML = `
+            <p>⚠️ Unable to find matching data point.</p>
+        `;
+        answerContainer.classList.remove('hidden');
+        return;
+    }
+    
+    // Calculate how close the inputs are to the dataset point
+    const pitchDiff = Math.abs(closest.pitchSpeed - pitchSpeed);
+    const angleDiff = Math.abs(closest.launchAngle - launchAngle);
+    const isExactMatch = pitchDiff === 0 && angleDiff === 0;
+    
+    // Display the answer
+    answerContent.innerHTML = `
+        <p><strong>Based on the scouting report:</strong></p>
+        ${isExactMatch ? 
+            `<p>✓ Your inputs match a data point exactly!</p>` : 
+            `<p>📊 Closest match in dataset:<br>
+            Pitch Speed: ${closest.pitchSpeed} mph (${pitchDiff > 0 ? `${pitchDiff} mph difference` : 'exact'})<br>
+            Launch Angle: ${closest.launchAngle}° (${angleDiff > 0 ? `${angleDiff}° difference` : 'exact'})</p>`
+        }
+        <span class="answer-value">${closest.exitVelocity} mph</span>
+        <p><em>Expected Exit Velocity from historical data</em></p>
+        ${!isExactMatch ? 
+            `<p class="info-note">💡 <strong>Note:</strong> Your inputs (${pitchSpeed} mph, ${launchAngle}°) don't exactly match a data point. The answer shown is from the closest matching scenario in our scouting report.</p>` : 
+            ''
+        }
+    `;
+    
+    // Show the container
+    answerContainer.classList.remove('hidden');
+    
+    // Scroll to the answer
+    answerContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}

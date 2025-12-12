@@ -160,6 +160,118 @@ class Scoreboard {
     }
     
     /**
+     * Show the correct answer for the current challenge
+     */
+    showChallengeAnswer() {
+        if (!this.currentChallenge) return;
+        
+        const challenge = this.challenges[this.currentChallenge];
+        const answerContainer = document.getElementById('challengeAnswerContainer');
+        const answerContent = document.getElementById('challengeAnswerContent');
+        
+        let answerHTML = `
+            <div class="answer-steps">
+                <h4>${challenge.title}</h4>
+                <p><strong>📝 Solution:</strong></p>
+        `;
+        
+        // Generate step-by-step answer based on challenge type
+        switch (this.currentChallenge) {
+            case 'rookie':
+                answerHTML += `
+                    <ol>
+                        <li>Go to the <strong>Player Stats</strong> panel</li>
+                        <li>Adjust <strong>Pitch Speed</strong> slider to <strong>95 mph</strong></li>
+                        <li>Adjust <strong>Launch Angle</strong> slider to <strong>30°</strong></li>
+                        <li>Click the <strong>"Take a Swing!"</strong> button in the Forward Pass panel</li>
+                        <li>The network will calculate: z = w₀ + w₁(95) + w₂(30), then apply activation</li>
+                    </ol>
+                    <p class="note">This demonstrates how the neural network processes inputs through the forward pass.</p>
+                `;
+                break;
+                
+            case 'single-a':
+                answerHTML += `
+                    <ol>
+                        <li>First, set <strong>Pitch Speed = 90</strong> and <strong>Launch Angle = 25</strong></li>
+                        <li>Go to the <strong>Player Ratings (Weights)</strong> panel</li>
+                        <li>Adjust weights to achieve prediction ≈ 100 mph. For example:
+                            <ul>
+                                <li>Set <strong>w₀ (Bias) ≈ 10</strong></li>
+                                <li>Set <strong>w₁ ≈ 0.8</strong></li>
+                                <li>Set <strong>w₂ ≈ 0.5</strong></li>
+                            </ul>
+                        </li>
+                        <li>Click "Take a Swing!" to verify</li>
+                        <li>Formula: z = 10 + 0.8(90) + 0.5(25) = 10 + 72 + 12.5 = 94.5, then apply activation</li>
+                    </ol>
+                    <p class="note">You may need to fine-tune these values. The weights control how much each input affects the output.</p>
+                `;
+                break;
+                
+            case 'double-a':
+                answerHTML += `
+                    <ol>
+                        <li>Find the <strong>Coaching Strategy (Activation)</strong> dropdown</li>
+                        <li>Select <strong>"ReLU (Power Hitting)"</strong></li>
+                        <li>Click "Take a Swing!" and observe the result</li>
+                        <li>Now change to <strong>"Sigmoid (Contact Hitting)"</strong></li>
+                        <li>Click "Take a Swing!" again</li>
+                    </ol>
+                    <p class="note"><strong>Key Differences:</strong></p>
+                    <ul>
+                        <li><strong>ReLU:</strong> f(z) = max(0, z) - Returns 0 for negative values</li>
+                        <li><strong>Sigmoid:</strong> f(z) = 1/(1+e⁻ᶻ) - Squashes output between 0 and 1</li>
+                    </ul>
+                `;
+                break;
+                
+            case 'triple-a':
+                answerHTML += `
+                    <ol>
+                        <li>Go to the <strong>Training Session</strong> panel</li>
+                        <li>Set <strong>Learning Rate</strong> slider (try 0.01 or 0.05)</li>
+                        <li>Set <strong>Training Rounds</strong> to at least <strong>20</strong></li>
+                        <li>Click <strong>"Run Training Session"</strong></li>
+                        <li>Watch as the weights automatically adjust to minimize loss</li>
+                        <li>The algorithm uses gradient descent: w = w - α × ∂Loss/∂w</li>
+                    </ol>
+                    <p class="note">Training iteratively updates weights to reduce prediction error across all data points.</p>
+                `;
+                break;
+                
+            case 'major':
+                answerHTML += `
+                    <ol>
+                        <li>This requires experimentation! Start with:
+                            <ul>
+                                <li><strong>Learning Rate:</strong> 0.01 to 0.05</li>
+                                <li><strong>Training Rounds:</strong> 50 to 100</li>
+                            </ul>
+                        </li>
+                        <li>Click "Run Training Session"</li>
+                        <li>Check the loss value after training</li>
+                        <li>If loss &gt; 10:
+                            <ul>
+                                <li>Try adjusting learning rate (lower if loss increases, higher if too slow)</li>
+                                <li>Increase epochs</li>
+                                <li>Reset and try different activation functions</li>
+                            </ul>
+                        </li>
+                    </ol>
+                    <p class="note"><strong>Tips:</strong> A good combination is learning rate = 0.01 with 100 epochs using Linear or Sigmoid activation.</p>
+                `;
+                break;
+        }
+        
+        answerHTML += `</div>`;
+        
+        answerContent.innerHTML = answerHTML;
+        answerContainer.classList.remove('hidden');
+        answerContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+    
+    /**
      * Update scoreboard display
      */
     updateScoreboard() {

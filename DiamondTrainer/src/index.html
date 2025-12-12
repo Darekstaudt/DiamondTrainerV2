@@ -145,6 +145,13 @@
             <div class="panel" id="forwardPassPanel">
                 <h3><i class="fas fa-bullseye"></i> Step 3: Forward Pass (Take a Swing)</h3>
                 <button id="forwardPassBtn" class="btn-primary"><i class="fas fa-baseball-bat-ball"></i> Take a Swing!</button>
+                <button id="showAnswerBtn" class="btn-answer" title="Shows the expected exit velocity from the scouting report dataset (Ctrl+S)">
+                    <i class="fas fa-eye"></i> Show Correct Answer
+                </button>
+                <div id="answerContainer" class="answer-container hidden">
+                    <h4><i class="fas fa-check-circle"></i> Correct Answer</h4>
+                    <div id="answerContent"></div>
+                </div>
                 <div id="forwardPassResults" class="results hidden">
                     <div class="math-display">
                         <h4>Linear Combination:</h4>
@@ -185,8 +192,14 @@
                 </div>
                 <button id="trainBtn" class="btn-secondary"><i class="fas fa-chart-line"></i> Run Training Session</button>
                 <div id="trainingResults" class="results hidden">
-                    <p>Loss: <span id="lossValue">-</span></p>
-                    <p>Epoch: <span id="epochProgress">-</span></p>
+                    <div class="training-metric">
+                        <span class="metric-label">Loss:</span>
+                        <span id="lossValue" class="metric-value">-</span>
+                    </div>
+                    <div class="training-metric">
+                        <span class="metric-label">Epoch:</span>
+                        <span id="epochProgress" class="metric-value">-</span>
+                    </div>
                 </div>
             </div>
 
@@ -213,7 +226,12 @@
                     <div id="challengeDescription"></div>
                     <div class="challenge-controls">
                         <button id="hintBtn" class="btn-hint"><i class="fas fa-lightbulb"></i> Get Hint</button>
+                        <button id="showChallengeAnswerBtn" class="btn-answer"><i class="fas fa-eye"></i> Show Answer</button>
                         <button id="submitChallengeBtn" class="btn-primary">Submit Answer</button>
+                    </div>
+                    <div id="challengeAnswerContainer" class="answer-container hidden">
+                        <h4><i class="fas fa-check-circle"></i> Challenge Answer</h4>
+                        <div id="challengeAnswerContent"></div>
                     </div>
                     <div id="challengeFeedback" class="feedback hidden"></div>
                 </div>

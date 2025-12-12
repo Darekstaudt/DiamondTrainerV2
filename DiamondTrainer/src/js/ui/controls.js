@@ -18,11 +18,13 @@ class ControlsManager {
         this.setupSlider('pitchSpeed', 'pitchSpeedValue', (value) => {
             this.network.setInputs(value, this.network.x2);
             this.eventLog.log(`Pitch speed set to ${value} mph`);
+            this.hideAnswerContainer();
         });
         
         this.setupSlider('launchAngle', 'launchAngleValue', (value) => {
             this.network.setInputs(this.network.x1, value);
             this.eventLog.log(`Launch angle set to ${value}°`);
+            this.hideAnswerContainer();
         });
         
         // Weight Controls
@@ -73,8 +75,30 @@ class ControlsManager {
         
         if (slider && display) {
             slider.addEventListener('input', (e) => {
-                const value = e.target.value;
-                display.textContent = parseFloat(value).toFixed(slider.step < 1 ? 1 : 0);
+                const value = parseFloat(e.target.value);
+                
+                // Determine decimal places based on slider step or id
+                let decimals = 0;
+                if (slider.step && parseFloat(slider.step) < 1) {
+                    // Count decimal places in step
+                    const stepStr = slider.step.toString();
+                    const decimalIndex = stepStr.indexOf('.');
+                    if (decimalIndex !== -1) {
+                        decimals = stepStr.length - decimalIndex - 1;
+                    }
+                }
+                
+                // Special handling for learning rate - always show 2-3 decimal places
+                if (sliderId === 'learningRate') {
+                    decimals = value < 0.01 ? 3 : 2;
+                }
+                
+                // Default to 1 decimal for fractional values, 0 for integers
+                if (decimals === 0 && slider.step < 1) {
+                    decimals = 1;
+                }
+                
+                display.textContent = value.toFixed(decimals);
                 
                 // Add visual feedback
                 display.classList.add('value-updated');
@@ -119,6 +143,16 @@ class ControlsManager {
     }
     
     /**
+     * Hide answer container when inputs change
+     */
+    hideAnswerContainer() {
+        const answerContainer = document.getElementById('answerContainer');
+        if (answerContainer && !answerContainer.classList.contains('hidden')) {
+            answerContainer.classList.add('hidden');
+        }
+    }
+    
+    /**
      * Reset all controls to default values
      */
     resetControls() {
@@ -142,6 +176,7 @@ class ControlsManager {
         this.network.setWeights(0, 1, 0.5);
         this.network.setActivation('identity');
         
+        this.hideAnswerContainer();
         this.eventLog.log('Controls reset to default values');
     }
 }

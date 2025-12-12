@@ -118,6 +118,10 @@ function setInputsFromDataset(pitchSpeed, launchAngle) {
     document.getElementById('launchAngleValue').textContent = launchAngle;
     
     network.setInputs(pitchSpeed, launchAngle);
+    
+    // Hide answer container when inputs change
+    document.getElementById('answerContainer').classList.add('hidden');
+    
     eventLog.log(`Inputs set from dataset: ${pitchSpeed} mph, ${launchAngle}°`);
 }
 
@@ -153,11 +157,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         displayForwardPassResults(results);
         eventLog.log(`Forward pass computed: ŷ = ${results.yHat.toFixed(2)} mph`);
         
+        // Hide answer container when new calculation is made
+        document.getElementById('answerContainer').classList.add('hidden');
+        
         // Check if challenge is active
         if (scoreboard.currentChallenge) {
             const passed = scoreboard.checkChallenge(network, trainer, lastLoss);
             scoreboard.showFeedback(passed);
         }
+    });
+    
+    // Show Answer button
+    const showAnswerBtn = document.getElementById('showAnswerBtn');
+    showAnswerBtn.addEventListener('click', () => {
+        const pitchSpeed = parseFloat(document.getElementById('pitchSpeed').value);
+        const launchAngle = parseFloat(document.getElementById('launchAngle').value);
+        displayCorrectAnswer(pitchSpeed, launchAngle, trainer.dataset);
+        eventLog.log(`Correct answer displayed for inputs: ${pitchSpeed} mph, ${launchAngle}°`);
     });
     
     // Training button
@@ -218,6 +234,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         scoreboard.showHint();
     });
     
+    // Show Challenge Answer button
+    const showChallengeAnswerBtn = document.getElementById('showChallengeAnswerBtn');
+    showChallengeAnswerBtn.addEventListener('click', () => {
+        if (scoreboard.currentChallenge) {
+            scoreboard.showChallengeAnswer();
+            eventLog.log('Showing challenge answer');
+        } else {
+            alert('Please select a challenge first!');
+        }
+    });
+    
     // Submit challenge button
     const submitChallengeBtn = document.getElementById('submitChallengeBtn');
     submitChallengeBtn.addEventListener('click', () => {
@@ -247,5 +274,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Initialize scoreboard
     scoreboard.updateScoreboard();
     
+    // Add keyboard shortcuts for better UX
+    document.addEventListener('keydown', (e) => {
+        // Ctrl/Cmd + Enter to take a swing
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            forwardPassBtn.click();
+        }
+        // Ctrl/Cmd + S to show answer
+        if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+            e.preventDefault();
+            showAnswerBtn.click();
+        }
+    });
+    
     eventLog.log('All systems ready! Click a challenge to begin! 🏆');
+    eventLog.log('💡 Tip: Press Ctrl+Enter to take a swing, Ctrl+S to show answer');
 });

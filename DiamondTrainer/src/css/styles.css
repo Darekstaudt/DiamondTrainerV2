@@ -278,6 +278,7 @@ input[type="range"] {
     opacity: 0.9;
     transition: all var(--transition-speed) ease;
     -webkit-appearance: none;
+    appearance: none;
     cursor: pointer;
     box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
 }
@@ -699,8 +700,19 @@ input[type="range"]::-moz-range-thumb:hover {
 
 .challenge-controls {
     display: flex;
-    gap: 0.5rem;
+    flex-wrap: wrap;
+    gap: 0.75rem;
     margin-top: 1rem;
+}
+
+.challenge-controls .btn-hint,
+.challenge-controls .btn-answer {
+    flex: 1 1 calc(50% - 0.375rem);
+    min-width: 150px;
+}
+
+.challenge-controls .btn-primary {
+    flex: 1 1 100%;
 }
 
 .feedback {
@@ -965,6 +977,196 @@ button:hover i {
     font-size: 1.3rem;
     padding: 1.25rem 2.5rem;
     animation: pulse 2s infinite;
+}
+
+/* ===== Answer Button Style ===== */
+.btn-answer {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition-speed) ease;
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+    margin-top: 1rem;
+    background: linear-gradient(135deg, var(--warning-orange) 0%, #FF8C00 100%);
+    color: var(--white);
+    box-shadow: 0 4px 12px rgba(255, 165, 0, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-answer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.btn-answer:hover {
+    background: linear-gradient(135deg, #FF8C00 0%, #FF7700 100%);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(255, 165, 0, 0.5);
+}
+
+.btn-answer:hover::before {
+    left: 100%;
+}
+
+.btn-answer:active {
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(255, 165, 0, 0.3);
+}
+
+/* ===== Answer Container ===== */
+.answer-container {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, #FFF3E0 0%, #FFE0B2 100%);
+    border-radius: 12px;
+    border: 3px solid var(--warning-orange);
+    box-shadow: 0 4px 12px rgba(255, 165, 0, 0.2);
+    animation: fadeIn 0.4s ease;
+}
+
+.answer-container.hidden {
+    display: none;
+}
+
+.answer-container h4 {
+    color: var(--warning-orange);
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.answer-container h4 i {
+    font-size: 1.5rem;
+}
+
+#answerContent {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--dark-gray);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+#answerContent .answer-value {
+    display: block;
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--warning-orange);
+    margin: 1rem 0;
+    text-align: center;
+    padding: 1rem;
+    background: linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%);
+    border-radius: 8px;
+    border: 2px solid var(--warning-orange);
+}
+
+#answerContent .info-note {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: #E3F2FD;
+    border-left: 4px solid var(--mercyhurst-blue);
+    border-radius: 8px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* ===== Challenge Answer Container ===== */
+#challengeAnswerContainer {
+    margin-top: 1.5rem;
+}
+
+#challengeAnswerContent {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: var(--dark-gray);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+#challengeAnswerContent .answer-steps {
+    background: linear-gradient(135deg, #FFF8E1 0%, #FFECB3 100%);
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 2px solid var(--warning-orange);
+}
+
+#challengeAnswerContent .answer-steps h4 {
+    color: var(--mercyhurst-green);
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+#challengeAnswerContent .answer-steps ol {
+    margin-left: 1.5rem;
+    margin-top: 1rem;
+}
+
+#challengeAnswerContent .answer-steps ol li {
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+}
+
+#challengeAnswerContent .answer-steps ul {
+    margin-left: 1.5rem;
+    margin-top: 0.5rem;
+}
+
+#challengeAnswerContent .answer-steps ul li {
+    margin-bottom: 0.5rem;
+}
+
+#challengeAnswerContent .answer-steps .note {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #E3F2FD;
+    border-left: 4px solid var(--mercyhurst-blue);
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-style: italic;
+}
+
+/* ===== Training Metrics Display ===== */
+.training-metric {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem;
+    margin-bottom: 0.5rem;
+    background: var(--white);
+    border-radius: 8px;
+    border-left: 4px solid var(--mercyhurst-blue);
+}
+
+.metric-label {
+    font-weight: 600;
+    color: var(--dark-gray);
+    font-size: 1.05rem;
+}
+
+.metric-value {
+    font-weight: bold;
+    color: var(--mercyhurst-blue);
+    font-size: 1.3rem;
+    font-family: 'Courier New', monospace;
 }
 
 /* ===== Value Display Enhancement ===== */
