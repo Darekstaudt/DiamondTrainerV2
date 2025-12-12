@@ -1,0 +1,59 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f0f8ff;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #005b5c; /* Mercyhurst green */
+}
+
+.panel {
+    background-color: #e0f7fa;
+    border: 1px solid #005b5c;
+    border-radius: 8px;
+    padding: 20px;
+    margin: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.button {
+    background-color: #007bff; /* Mercyhurst blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+.input-slider {
+    width: 100%;
+    margin: 10px 0;
+}
+
+.instructions {
+    display: none;
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    padding: 15px;
+    border-radius: 5px;
+}
+
+@media (max-width: 600px) {
+    .panel {
+        margin: 10px;
+        padding: 15px;
+    }
+
+    .button {
+        width: 100%;
+    }
+}

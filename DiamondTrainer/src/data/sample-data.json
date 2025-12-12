@@ -1,0 +1,77 @@
+[
+  {
+    "pitchSpeed": 85,
+    "launchAngle": 20,
+    "exitVelocity": 95
+  },
+  {
+    "pitchSpeed": 90,
+    "launchAngle": 25,
+    "exitVelocity": 102
+  },
+  {
+    "pitchSpeed": 95,
+    "launchAngle": 30,
+    "exitVelocity": 108
+  },
+  {
+    "pitchSpeed": 88,
+    "launchAngle": 22,
+    "exitVelocity": 98
+  },
+  {
+    "pitchSpeed": 92,
+    "launchAngle": 28,
+    "exitVelocity": 105
+  },
+  {
+    "pitchSpeed": 80,
+    "launchAngle": 18,
+    "exitVelocity": 89
+  },
+  {
+    "pitchSpeed": 87,
+    "launchAngle": 24,
+    "exitVelocity": 97
+  },
+  {
+    "pitchSpeed": 93,
+    "launchAngle": 27,
+    "exitVelocity": 106
+  },
+  {
+    "pitchSpeed": 82,
+    "launchAngle": 19,
+    "exitVelocity": 91
+  },
+  {
+    "pitchSpeed": 96,
+    "launchAngle": 32,
+    "exitVelocity": 110
+  },
+  {
+    "pitchSpeed": 89,
+    "launchAngle": 26,
+    "exitVelocity": 101
+  },
+  {
+    "pitchSpeed": 91,
+    "launchAngle": 23,
+    "exitVelocity": 103
+  },
+  {
+    "pitchSpeed": 84,
+    "launchAngle": 21,
+    "exitVelocity": 94
+  },
+  {
+    "pitchSpeed": 94,
+    "launchAngle": 29,
+    "exitVelocity": 107
+  },
+  {
+    "pitchSpeed": 86,
+    "launchAngle": 25,
+    "exitVelocity": 96
+  }
+]

@@ -1,0 +1,36 @@
+{
+  "scoutingReport": [
+    {
+      "player": "Player A",
+      "pitchType": "Fastball",
+      "velocity": 95,
+      "spinRate": 2300,
+      "launchAngle": 15,
+      "exitVelocity": 100
+    },
+    {
+      "player": "Player B",
+      "pitchType": "Curveball",
+      "velocity": 80,
+      "spinRate": 2500,
+      "launchAngle": 10,
+      "exitVelocity": 85
+    },
+    {
+      "player": "Player C",
+      "pitchType": "Slider",
+      "velocity": 88,
+      "spinRate": 2200,
+      "launchAngle": 12,
+      "exitVelocity": 90
+    },
+    {
+      "player": "Player D",
+      "pitchType": "Changeup",
+      "velocity": 78,
+      "spinRate": 1800,
+      "launchAngle": 8,
+      "exitVelocity": 80
+    }
+  ]
+}

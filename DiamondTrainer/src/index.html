@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DiamondTrainer ⚾ — Neural Network Training Camp</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <h1 class="title">DiamondTrainer ⚾</h1>
+            <p class="subtitle">Neural Network Training Camp</p>
+        </div>
+    </header>
+
+    <!-- Getting Started Instructions -->
+    <div id="instructionsOverlay" class="instructions-overlay">
+        <div class="instructions-panel">
+            <h2>🧑‍🏫 Welcome to Training Camp!</h2>
+            <div class="instruction-steps">
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <div class="step-content">
+                        <strong>⚾ Set up Player Stats</strong>
+                        <p>Adjust Pitch Speed (x₁) and Launch Angle (x₂) to define your scenario.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <div class="step-content">
+                        <strong>🧢 Adjust Player Ratings (Weights)</strong>
+                        <p>Use sliders to set w₀ (bias), w₁, and w₂ values.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <div class="step-content">
+                        <strong>🎯 Run Forward Pass (Take a Swing)</strong>
+                        <p>Click "Take a Swing" to see predicted exit velocity.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <div class="step-content">
+                        <strong>📈 Perform Training Session</strong>
+                        <p>Run gradient descent to optimize weights automatically.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <span class="step-number">5</span>
+                    <div class="step-content">
+                        <strong>🏆 Take Game Day Challenges</strong>
+                        <p>Test your knowledge with progressively harder challenges!</p>
+                    </div>
+                </div>
+            </div>
+            <button id="closeInstructions" class="btn-primary">Let's Play Ball!</button>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Left Column -->
+        <div class="column left-column">
+            <!-- Player Stats Panel -->
+            <div class="panel" id="playerStatsPanel">
+                <h3>⚾ Player Stats (Inputs)</h3>
+                <div class="control-group">
+                    <label for="pitchSpeed">
+                        Pitch Speed (x₁): <span id="pitchSpeedValue">90</span> mph
+                        <span class="tooltip">🧑‍🏫
+                            <span class="tooltip-text">How fast the pitcher throws. Higher speeds = more potential.</span>
+                        </span>
+                    </label>
+                    <input type="range" id="pitchSpeed" min="60" max="105" value="90" step="1">
+                </div>
+                <div class="control-group">
+                    <label for="launchAngle">
+                        Launch Angle (x₂): <span id="launchAngleValue">25</span>°
+                        <span class="tooltip">🧑‍🏫
+                            <span class="tooltip-text">The angle at which the ball leaves the bat. Sweet spot is around 25-35°.</span>
+                        </span>
+                    </label>
+                    <input type="range" id="launchAngle" min="0" max="60" value="25" step="1">
+                </div>
+            </div>
+
+            <!-- Weights Panel -->
+            <div class="panel" id="weightsPanel">
+                <h3>🧢 Player Ratings (Weights)</h3>
+                <div class="control-group">
+                    <label for="w0">
+                        w₀ (Bias): <span id="w0Value">0.0</span>
+                        <span class="tooltip">🧑‍🏫
+                            <span class="tooltip-text">Base skill level. Shifts the entire prediction up or down.</span>
+                        </span>
+                    </label>
+                    <input type="range" id="w0" min="-5" max="5" value="0" step="0.1">
+                </div>
+                <div class="control-group">
+                    <label for="w1">
+                        w₁ (Pitch Speed Weight): <span id="w1Value">1.0</span>
+                        <span class="tooltip">🧑‍🏫
+                            <span class="tooltip-text">How much pitch speed affects exit velocity.</span>
+                        </span>
+                    </label>
+                    <input type="range" id="w1" min="-2" max="2" value="1" step="0.1">
+                </div>
+                <div class="control-group">
+                    <label for="w2">
+                        w₂ (Launch Angle Weight): <span id="w2Value">0.5</span>
+                        <span class="tooltip">🧑‍🏫
+                            <span class="tooltip-text">How much launch angle affects exit velocity.</span>
+                        </span>
+                    </label>
+                    <input type="range" id="w2" min="-2" max="2" value="0.5" step="0.1">
+                </div>
+            </div>
+
+            <!-- Activation Panel -->
+            <div class="panel" id="activationPanel">
+                <h3>⚡ Coaching Strategy (Activation)</h3>
+                <select id="activation" class="activation-select">
+                    <option value="identity">Identity (Linear)</option>
+                    <option value="relu">ReLU (Power Hitting)</option>
+                    <option value="sigmoid">Sigmoid (Contact Hitting)</option>
+                </select>
+                <div class="activation-info">
+                    <span class="tooltip">🧑‍🏫
+                        <span class="tooltip-text">Activation functions add non-linearity. Think of them as different batting approaches!</span>
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Middle Column -->
+        <div class="column middle-column">
+            <!-- Forward Pass Panel -->
+            <div class="panel" id="forwardPassPanel">
+                <h3>🎯 Forward Pass (Take a Swing)</h3>
+                <button id="forwardPassBtn" class="btn-primary">Take a Swing! 🏏</button>
+                <div id="forwardPassResults" class="results hidden">
+                    <div class="math-display">
+                        <h4>Linear Combination:</h4>
+                        <div id="linearEquation" class="equation">
+                            \[ z = w_0 + w_1 x_1 + w_2 x_2 \]
+                        </div>
+                        <div id="linearValue" class="value"></div>
+                    </div>
+                    <div class="math-display">
+                        <h4>Prediction (Exit Velocity):</h4>
+                        <div id="activationEquation" class="equation">
+                            \[ \hat{y} = \text{activation}(z) \]
+                        </div>
+                        <div id="predictionValue" class="value prediction-highlight"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Training Panel -->
+            <div class="panel" id="trainingPanel">
+                <h3>📈 Training Session (Gradient Descent)</h3>
+                <div class="training-controls">
+                    <div class="control-group">
+                        <label for="learningRate">
+                            Learning Rate: <span id="learningRateValue">0.01</span>
+                            <span class="tooltip">🧑‍🏫
+                                <span class="tooltip-text">How fast we adjust weights. Too high = overshooting, too low = slow progress.</span>
+                            </span>
+                        </label>
+                        <input type="range" id="learningRate" min="0.001" max="0.1" value="0.01" step="0.001">
+                    </div>
+                    <div class="control-group">
+                        <label for="epochs">
+                            Training Rounds: <span id="epochsValue">10</span>
+                        </label>
+                        <input type="range" id="epochs" min="1" max="100" value="10" step="1">
+                    </div>
+                </div>
+                <button id="trainBtn" class="btn-secondary">Run Training Session 🏃</button>
+                <div id="trainingResults" class="results hidden">
+                    <p>Loss: <span id="lossValue">-</span></p>
+                    <p>Epoch: <span id="epochProgress">-</span></p>
+                </div>
+            </div>
+
+            <!-- Scouting Report -->
+            <div class="panel" id="scoutingPanel">
+                <h3>📊 Scouting Report (Dataset)</h3>
+                <div id="datasetTable" class="dataset-table"></div>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="column right-column">
+            <!-- Game Day Challenges -->
+            <div class="panel" id="challengesPanel">
+                <h3>🏆 Game Day Challenges</h3>
+                <div id="challengeSelect" class="challenge-select">
+                    <button class="challenge-btn" data-level="rookie">Rookie League</button>
+                    <button class="challenge-btn" data-level="single-a">Single-A</button>
+                    <button class="challenge-btn" data-level="double-a">Double-A</button>
+                    <button class="challenge-btn" data-level="triple-a">Triple-A</button>
+                    <button class="challenge-btn" data-level="major">Major League</button>
+                </div>
+                <div id="challengeContent" class="challenge-content hidden">
+                    <div id="challengeDescription"></div>
+                    <div class="challenge-controls">
+                        <button id="hintBtn" class="btn-hint">Get Hint 💡</button>
+                        <button id="submitChallengeBtn" class="btn-primary">Submit Answer</button>
+                    </div>
+                    <div id="challengeFeedback" class="feedback hidden"></div>
+                </div>
+            </div>
+
+            <!-- Scoreboard -->
+            <div class="panel" id="scoreboardPanel">
+                <h3>📈 Scoreboard</h3>
+                <div id="scoreboardContent">
+                    <div class="stat-row">
+                        <span>Challenges Completed:</span>
+                        <span id="challengesCompleted">0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span>Accuracy:</span>
+                        <span id="accuracy">0%</span>
+                    </div>
+                    <div class="progress-bar">
+                        <div id="progressFill" class="progress-fill"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Play-by-Play Log -->
+            <div class="panel" id="logPanel">
+                <h3>📝 Play-by-Play
+                    <button id="toggleLog" class="btn-toggle">Hide</button>
+                </h3>
+                <div id="eventLog" class="event-log"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>Created by Darek Staudt | Mercyhurst Baseball ⚾</p>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/nn/network.js"></script>
+    <script src="js/nn/forward.js"></script>
+    <script src="js/nn/trainer.js"></script>
+    <script src="js/ui/controls.js"></script>
+    <script src="js/ui/scoreboard.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
