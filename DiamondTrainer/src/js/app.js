@@ -173,7 +173,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         trainer.setLearningRate(learningRate);
         trainingResults.classList.remove('hidden');
         trainBtn.disabled = true;
-        trainBtn.textContent = 'Training... 🏃';
+        trainBtn.innerHTML = '<i class="fas fa-spinner"></i> Training in Progress...';
         
         eventLog.log(`Starting training: ${epochs} epochs, LR=${learningRate.toFixed(3)}`);
         
@@ -192,7 +192,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
         
         trainBtn.disabled = false;
-        trainBtn.textContent = 'Run Training Session 🏃';
+        trainBtn.innerHTML = '<i class="fas fa-chart-line"></i> Run Training Session';
         eventLog.log(`Training complete! Final loss: ${lastLoss.toFixed(4)}`);
         
         // Check if challenge is active
@@ -237,7 +237,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     const toggleLogBtn = document.getElementById('toggleLog');
     toggleLogBtn.addEventListener('click', () => {
         eventLog.toggle();
-        toggleLogBtn.textContent = eventLog.visible ? 'Hide' : 'Show';
+        if (eventLog.visible) {
+            toggleLogBtn.innerHTML = '<i class="fas fa-eye-slash"></i> Hide';
+        } else {
+            toggleLogBtn.innerHTML = '<i class="fas fa-eye"></i> Show';
+        }
     });
     
     // Initialize scoreboard

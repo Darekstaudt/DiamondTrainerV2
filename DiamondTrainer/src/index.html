@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DiamondTrainer ⚾ — Neural Network Training Camp</title>
     <link rel="stylesheet" href="css/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
     <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
@@ -59,7 +60,7 @@
                     </div>
                 </div>
             </div>
-            <button id="closeInstructions" class="btn-primary">Let's Play Ball!</button>
+            <button id="closeInstructions" class="btn-primary btn-large"><i class="fas fa-play-circle"></i> Let's Play Ball!</button>
         </div>
     </div>
 
@@ -69,7 +70,7 @@
         <div class="column left-column">
             <!-- Player Stats Panel -->
             <div class="panel" id="playerStatsPanel">
-                <h3>⚾ Player Stats (Inputs)</h3>
+                <h3><i class="fas fa-baseball-ball"></i> Step 1: Player Stats (Inputs)</h3>
                 <div class="control-group">
                     <label for="pitchSpeed">
                         Pitch Speed (x₁): <span id="pitchSpeedValue">90</span> mph
@@ -92,7 +93,7 @@
 
             <!-- Weights Panel -->
             <div class="panel" id="weightsPanel">
-                <h3>🧢 Player Ratings (Weights)</h3>
+                <h3><i class="fas fa-sliders-h"></i> Step 2: Player Ratings (Weights)</h3>
                 <div class="control-group">
                     <label for="w0">
                         w₀ (Bias): <span id="w0Value">0.0</span>
@@ -124,7 +125,7 @@
 
             <!-- Activation Panel -->
             <div class="panel" id="activationPanel">
-                <h3>⚡ Coaching Strategy (Activation)</h3>
+                <h3><i class="fas fa-bolt"></i> Coaching Strategy (Activation)</h3>
                 <select id="activation" class="activation-select">
                     <option value="identity">Identity (Linear)</option>
                     <option value="relu">ReLU (Power Hitting)</option>
@@ -142,8 +143,8 @@
         <div class="column middle-column">
             <!-- Forward Pass Panel -->
             <div class="panel" id="forwardPassPanel">
-                <h3>🎯 Forward Pass (Take a Swing)</h3>
-                <button id="forwardPassBtn" class="btn-primary">Take a Swing! 🏏</button>
+                <h3><i class="fas fa-bullseye"></i> Step 3: Forward Pass (Take a Swing)</h3>
+                <button id="forwardPassBtn" class="btn-primary"><i class="fas fa-baseball-bat-ball"></i> Take a Swing!</button>
                 <div id="forwardPassResults" class="results hidden">
                     <div class="math-display">
                         <h4>Linear Combination:</h4>
@@ -164,7 +165,7 @@
 
             <!-- Training Panel -->
             <div class="panel" id="trainingPanel">
-                <h3>📈 Training Session (Gradient Descent)</h3>
+                <h3><i class="fas fa-graduation-cap"></i> Step 4: Training Session (Gradient Descent)</h3>
                 <div class="training-controls">
                     <div class="control-group">
                         <label for="learningRate">
@@ -182,7 +183,7 @@
                         <input type="range" id="epochs" min="1" max="100" value="10" step="1">
                     </div>
                 </div>
-                <button id="trainBtn" class="btn-secondary">Run Training Session 🏃</button>
+                <button id="trainBtn" class="btn-secondary"><i class="fas fa-chart-line"></i> Run Training Session</button>
                 <div id="trainingResults" class="results hidden">
                     <p>Loss: <span id="lossValue">-</span></p>
                     <p>Epoch: <span id="epochProgress">-</span></p>
@@ -191,7 +192,7 @@
 
             <!-- Scouting Report -->
             <div class="panel" id="scoutingPanel">
-                <h3>📊 Scouting Report (Dataset)</h3>
+                <h3><i class="fas fa-table"></i> Scouting Report (Dataset)</h3>
                 <div id="datasetTable" class="dataset-table"></div>
             </div>
         </div>
@@ -200,7 +201,7 @@
         <div class="column right-column">
             <!-- Game Day Challenges -->
             <div class="panel" id="challengesPanel">
-                <h3>🏆 Game Day Challenges</h3>
+                <h3><i class="fas fa-trophy"></i> Step 5: Game Day Challenges</h3>
                 <div id="challengeSelect" class="challenge-select">
                     <button class="challenge-btn" data-level="rookie">Rookie League</button>
                     <button class="challenge-btn" data-level="single-a">Single-A</button>
@@ -211,7 +212,7 @@
                 <div id="challengeContent" class="challenge-content hidden">
                     <div id="challengeDescription"></div>
                     <div class="challenge-controls">
-                        <button id="hintBtn" class="btn-hint">Get Hint 💡</button>
+                        <button id="hintBtn" class="btn-hint"><i class="fas fa-lightbulb"></i> Get Hint</button>
                         <button id="submitChallengeBtn" class="btn-primary">Submit Answer</button>
                     </div>
                     <div id="challengeFeedback" class="feedback hidden"></div>
@@ -220,7 +221,7 @@
 
             <!-- Scoreboard -->
             <div class="panel" id="scoreboardPanel">
-                <h3>📈 Scoreboard</h3>
+                <h3><i class="fas fa-chart-bar"></i> Scoreboard</h3>
                 <div id="scoreboardContent">
                     <div class="stat-row">
                         <span>Challenges Completed:</span>
@@ -238,8 +239,8 @@
 
             <!-- Play-by-Play Log -->
             <div class="panel" id="logPanel">
-                <h3>📝 Play-by-Play
-                    <button id="toggleLog" class="btn-toggle">Hide</button>
+                <h3><i class="fas fa-list-ul"></i> Play-by-Play
+                    <button id="toggleLog" class="btn-toggle"><i class="fas fa-eye-slash"></i> Hide</button>
                 </h3>
                 <div id="eventLog" class="event-log"></div>
             </div>

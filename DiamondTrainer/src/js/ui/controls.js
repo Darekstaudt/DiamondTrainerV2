@@ -75,6 +75,13 @@ class ControlsManager {
             slider.addEventListener('input', (e) => {
                 const value = e.target.value;
                 display.textContent = parseFloat(value).toFixed(slider.step < 1 ? 1 : 0);
+                
+                // Add visual feedback
+                display.classList.add('value-updated');
+                setTimeout(() => {
+                    display.classList.remove('value-updated');
+                }, 800);
+                
                 if (callback) callback(value);
             });
         }
